@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import { peopleFromServer } from './data/people';
+import { getPreperedName } from './getPreperedName';
 
 export const App: React.FC = () => {
   const { name, born, died } = peopleFromServer[0];
+  const [nameInput, selectNameInput] = useState('')
+  const [query, setQuery] = useState('')
+
+  const visibleNames = getPreperedName(peopleFromServer, {query})
 
   return (
     <div className="container">
@@ -19,33 +24,18 @@ export const App: React.FC = () => {
               placeholder="Enter a part of the name"
               className="input"
               data-cy="search-input"
+              value={nameInput}
+              onChange={event => selectNameInput(event.target.value)}
             />
           </div>
 
           <div className="dropdown-menu" role="menu" data-cy="suggestions-list">
             <div className="dropdown-content">
-              <div className="dropdown-item" data-cy="suggestion-item">
-                <p className="has-text-link">Pieter Haverbeke</p>
-              </div>
 
               <div className="dropdown-item" data-cy="suggestion-item">
-                <p className="has-text-link">Pieter Bernard Haverbeke</p>
-              </div>
-
-              <div className="dropdown-item" data-cy="suggestion-item">
-                <p className="has-text-link">Pieter Antone Haverbeke</p>
-              </div>
-
-              <div className="dropdown-item" data-cy="suggestion-item">
-                <p className="has-text-danger">Elisabeth Haverbeke</p>
-              </div>
-
-              <div className="dropdown-item" data-cy="suggestion-item">
-                <p className="has-text-link">Pieter de Decker</p>
-              </div>
-
-              <div className="dropdown-item" data-cy="suggestion-item">
-                <p className="has-text-danger">Petronella de Decker</p>
+                {visibleNames.map(people => (
+                  <p className="has-text-link">{people.name}</p>
+                ))}
               </div>
 
               <div className="dropdown-item" data-cy="suggestion-item">
