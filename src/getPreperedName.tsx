@@ -1,13 +1,20 @@
-export const getPreperedName = (goods, { query }) => {
-  let preperedName = [...goods]
+import { Person } from './types/Person';
 
-  const normalizedGoods = query.trim().toLowerCase()
+export const getPreperedPeople = (
+  people: Person[],
+  query: string,
+): Person[] => {
+  let preperedPeople = [...people];
 
-  if (normalizedGoods) {
-    preperedName = preperedName.filter(
-      name => name.toLowerCase().includes(normalizedGoods)
-    )
+  const normalizedQuery = query.trim().toLowerCase();
+
+  if (normalizedQuery) {
+    preperedPeople = preperedPeople.filter(person =>
+      person.name.toLowerCase().includes(normalizedQuery),
+    );
   }
 
-  return preperedName
-}
+  console.log(preperedPeople);
+
+  return preperedPeople;
+};
